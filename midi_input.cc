@@ -25,18 +25,22 @@ int main()
   // Install an interrupt handler function.
   done = false;
   (void) signal(SIGINT, finish);
+
   // Periodically check input queue.
   std::cout << "Reading MIDI from port ... quit with Ctrl-C.\n";
   while ( !done ) {
     stamp = midiin->getMessage( &message );
     nBytes = message.size();
-    for ( i=0; i<nBytes; i++ )
-      std::cout << "Byte " << i << " = " << (int)message[i] << ", ";
-    if ( nBytes > 0 )
-      std::cout << "stamp = " << stamp << std::endl;
+    if (nBytes > 0) {
+      // Extract the note and velocity from the MIDI message
+      int note = message[1];
+      int velocity = message[2];
+      std::cout << "Note = " << note << ", Velocity = " << velocity << ", stamp = " << stamp << std::endl;
+    }
     // Sleep for 10 milliseconds ... platform-dependent.
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
+
   // Clean up
  cleanup:
   delete midiin;
