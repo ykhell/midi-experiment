@@ -13,26 +13,26 @@ pygame.init()
 WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 1000
 WINDOW_SIZE = (WINDOW_WIDTH, WINDOW_HEIGHT)
-CIRCLE_RADIUS = 70
+CIRCLE_RADIUS = 46
 SMALL_CIRCLE_RADIUS = 13
 NUM_POINTS = 7
 NUM_CIRCLES = 12
 FONT_SIZE = 24
 BACKGROUND = (0, 0, 0)
-FOREGROUND = (255, 255, 255)
+FOREGROUND = (180, 180, 180)
 MID = (50, 50, 50)
 HIGHLIGHTS = [
-    (255, 244, 0),   # #d0f400
-    # (208, 238, 17), # #d0ee11
-    # (201, 229, 47), # #c9e52f
-    (166, 215, 91), # #a6d75b
-    (118, 198, 143),# #76c68f
-    (72, 181, 196), # #48b5c4
-    (34, 167, 240), # #22a7f0
-    (25, 132, 197), # #1984c5
-    (17, 95, 154),  # #115f9a
-    (17, 70, 120),  # #115f9a
-    (17, 50, 80)  # #115f9a
+    (255, 244, 0),    #d0f400
+    # (208, 238, 17), #d0ee11
+    # (201, 229, 47), #c9e52f
+    (166, 215, 91),   #a6d75b
+    (118, 198, 143),  #76c68f
+    (72, 181, 196),   #48b5c4
+    (34, 167, 240),   #22a7f0
+    (25, 132, 197),   #1984c5
+    (17, 95, 154),    #115f9a
+    (17, 70, 120),    #115f9a
+    (17, 50, 80)      #115f9a
 ]
 
 
@@ -46,6 +46,7 @@ HIGHLIGHT_6 = (60, 70, 140)    # Darkest cyan
 HIGHLIGHT_7 = (50, 50, 100)    # Darkest cyan
 
 CIRCLE_MARGIN = 160
+LARGE_CIRCLE_RADIUS = 240  # Adjust the 50 to provide some margin
 
 # Notes
 C  = [0, "C", 0]
@@ -55,6 +56,7 @@ D  = [2, "D", 0]
 Ds = [3, "D#", 0]
 Eb = [3, "Eb", 0]
 E  = [4, "E", 0]
+Fb  = [4, "Fb", 0]
 Es  = [5, "E#", 0]
 F  = [5, "F", 0]
 Fs = [6, "F#", 0]
@@ -70,7 +72,7 @@ Cb  = [11, "Cb", 0]
 Bs  = [0, "B#", 0]
 
 
-# Create scale arrays with copies of the note objects
+# Major
 c_major  = [copy.deepcopy(C), copy.deepcopy(D), copy.deepcopy(E), copy.deepcopy(F), copy.deepcopy(G), copy.deepcopy(A), copy.deepcopy(B)]
 cs_major = [copy.deepcopy(Cs), copy.deepcopy(Ds), copy.deepcopy(Es), copy.deepcopy(Fs), copy.deepcopy(Gs), copy.deepcopy(As), copy.deepcopy(Bs)]
 d_major  = [copy.deepcopy(D), copy.deepcopy(E), copy.deepcopy(Fs), copy.deepcopy(G), copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(Cs)]
@@ -84,7 +86,7 @@ a_major  = [copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(Cs), copy.deepcopy
 bb_major = [copy.deepcopy(Bb), copy.deepcopy(C), copy.deepcopy(D), copy.deepcopy(Eb), copy.deepcopy(F), copy.deepcopy(G), copy.deepcopy(A)]
 b_major  = [copy.deepcopy(B), copy.deepcopy(Cs), copy.deepcopy(Ds), copy.deepcopy(E), copy.deepcopy(Fs), copy.deepcopy(Gs), copy.deepcopy(As)]
 
-# Minor Scales
+# Minor
 c_minor  = [copy.deepcopy(C), copy.deepcopy(D), copy.deepcopy(Eb), copy.deepcopy(F), copy.deepcopy(G), copy.deepcopy(Ab), copy.deepcopy(Bb)]
 cs_minor = [copy.deepcopy(Cs), copy.deepcopy(Ds), copy.deepcopy(E), copy.deepcopy(Fs), copy.deepcopy(Gs), copy.deepcopy(A), copy.deepcopy(B)]
 d_minor  = [copy.deepcopy(D), copy.deepcopy(E), copy.deepcopy(F), copy.deepcopy(G), copy.deepcopy(A), copy.deepcopy(Bb), copy.deepcopy(C)]
@@ -93,15 +95,24 @@ e_minor  = [copy.deepcopy(E), copy.deepcopy(Fs), copy.deepcopy(G), copy.deepcopy
 f_minor  = [copy.deepcopy(F), copy.deepcopy(G), copy.deepcopy(Ab), copy.deepcopy(Bb), copy.deepcopy(C), copy.deepcopy(Db), copy.deepcopy(Eb)]
 fs_minor = [copy.deepcopy(Fs), copy.deepcopy(Gs), copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(Cs), copy.deepcopy(D), copy.deepcopy(E)]
 g_minor  = [copy.deepcopy(G), copy.deepcopy(A), copy.deepcopy(Bb), copy.deepcopy(C), copy.deepcopy(D), copy.deepcopy(Eb), copy.deepcopy(F)]
-gs_minor = [copy.deepcopy(Gs), copy.deepcopy(As), copy.deepcopy(B), copy.deepcopy(Cs), copy.deepcopy(Ds), copy.deepcopy(E), copy.deepcopy(Fs)]
+ab_minor = [copy.deepcopy(Ab), copy.deepcopy(Bb), copy.deepcopy(Cb), copy.deepcopy(Db), copy.deepcopy(Eb), copy.deepcopy(Fb), copy.deepcopy(Gb)]
 a_minor  = [copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(C), copy.deepcopy(D), copy.deepcopy(E), copy.deepcopy(F), copy.deepcopy(G)]
 bb_minor = [copy.deepcopy(Bb), copy.deepcopy(C), copy.deepcopy(Db), copy.deepcopy(Eb), copy.deepcopy(F), copy.deepcopy(Gb), copy.deepcopy(Ab)]
 b_minor  = [copy.deepcopy(B), copy.deepcopy(Cs), copy.deepcopy(D), copy.deepcopy(E), copy.deepcopy(Fs), copy.deepcopy(G), copy.deepcopy(A)]
 
-major_relations = [[0, 1, 1, 1, 1, 1, 2],
-                   [-1, 1, -1, 1, 2, 1, 2],
-                   [0, ]]
-
+# Harmonic minor
+c_harmonic  = [copy.deepcopy(C), copy.deepcopy(D), copy.deepcopy(Eb), copy.deepcopy(F), copy.deepcopy(G), copy.deepcopy(Ab), copy.deepcopy(B)]
+cs_harmonic = [copy.deepcopy(Cs), copy.deepcopy(Ds), copy.deepcopy(E), copy.deepcopy(Fs), copy.deepcopy(Gs), copy.deepcopy(A), copy.deepcopy(Bs)]
+d_harmonic  = [copy.deepcopy(D), copy.deepcopy(E), copy.deepcopy(F), copy.deepcopy(G), copy.deepcopy(A), copy.deepcopy(Bb), copy.deepcopy(Cs)]
+eb_harmonic = [copy.deepcopy(Eb), copy.deepcopy(F), copy.deepcopy(Gb), copy.deepcopy(Ab), copy.deepcopy(Bb), copy.deepcopy(Cb), copy.deepcopy(D)]
+e_harmonic  = [copy.deepcopy(E), copy.deepcopy(Fs), copy.deepcopy(G), copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(C), copy.deepcopy(Ds)]
+f_harmonic  = [copy.deepcopy(F), copy.deepcopy(G), copy.deepcopy(Ab), copy.deepcopy(Bb), copy.deepcopy(C), copy.deepcopy(Db), copy.deepcopy(E)]
+fs_harmonic = [copy.deepcopy(Fs), copy.deepcopy(Gs), copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(Cs), copy.deepcopy(D), copy.deepcopy(Es)]
+g_harmonic  = [copy.deepcopy(G), copy.deepcopy(A), copy.deepcopy(Bb), copy.deepcopy(C), copy.deepcopy(D), copy.deepcopy(Eb), copy.deepcopy(Fs)]
+ab_harmonic = [copy.deepcopy(Ab), copy.deepcopy(Bb), copy.deepcopy(Cb), copy.deepcopy(Db), copy.deepcopy(Eb), copy.deepcopy(Fb), copy.deepcopy(G)]
+a_harmonic  = [copy.deepcopy(A), copy.deepcopy(B), copy.deepcopy(C), copy.deepcopy(D), copy.deepcopy(E), copy.deepcopy(F), copy.deepcopy(Gs)]
+bb_harmonic = [copy.deepcopy(Bb), copy.deepcopy(C), copy.deepcopy(Db), copy.deepcopy(Eb), copy.deepcopy(F), copy.deepcopy(Gb), copy.deepcopy(A)]
+b_harmonic  = [copy.deepcopy(B), copy.deepcopy(Cs), copy.deepcopy(D), copy.deepcopy(E), copy.deepcopy(Fs), copy.deepcopy(G), copy.deepcopy(As)]
 
 # ## Major Scales
 # c_major  = [C, D, E, F, G, A, B]
@@ -133,7 +144,7 @@ major_relations = [[0, 1, 1, 1, 1, 1, 2],
 
 absolute_notes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 # scales = [c_major, cs_major, d_major, eb_major, e_major, f_major, fs_major, g_major, ab_major, a_major, bb_major, b_major]#, c_minor, cs_minor, d_minor, eb_minor, e_minor, f_minor, fs_minor, g_minor, gs_minor, a_minor, b_minor, b_minor]
-scales = [[c_major,  "C - Am", 0],
+majors = [[c_major,  "C - Am", 0],
           [g_major,  "G - Em", 0],
           [d_major,  "D - Bm", 0],
           [a_major,  "A - F#m", 0],
@@ -145,6 +156,21 @@ scales = [[c_major,  "C - Am", 0],
           [eb_major, "Eb - Cm", 0],
           [bb_major, "Bb - Gm", 0],
           [f_major,  "F - Dm", 0]]
+
+harmonics = [[a_harmonic, "Am H", 0],
+             [e_harmonic, "Em H", 0],
+             [b_harmonic, "Bm H", 0],
+             [fs_harmonic, "F#m H", 0],
+             [cs_harmonic, "C#m H", 0],
+             [ab_harmonic, "Abm H", 0],
+             [eb_harmonic, "Ebm H", 0],
+             [bb_harmonic, "Bbm H", 0],
+             [f_harmonic, "Fm H", 0],
+             [c_harmonic, "Cm H", 0],
+             [g_harmonic, "Gm H", 0],
+             [d_harmonic, "Dm H", 0]]
+
+scales = majors + harmonics
 
 def play(i):
     # note_name = (i - 24)% 12
@@ -205,25 +231,29 @@ def draw_text(text, position, color=FOREGROUND):
 
 #     return (circle_center_x, circle_center_y)
 
-def calculate_circle_center(num_points, index, total_circles, window_width, window_height):
+def calculate_circle_center(num_points, index, total_circles, window_width, window_height, harmonic = False):
     # Calculate the center and radius of the large circle
     large_circle_center_x = window_width / 2
     large_circle_center_y = window_height / 2
-    large_circle_radius = min(window_width, window_height) / 2 - CIRCLE_MARGIN  # Adjust the 50 to provide some margin
 
     # Calculate the angle between each circle in the large circle
     angle_between_circles = 360 / total_circles
 
     # Calculate the position of the current circle in the large circle
     angle = math.radians(270 + angle_between_circles * index)
-    circle_center_x = large_circle_center_x + large_circle_radius * math.cos(angle)
-    circle_center_y = large_circle_center_y + large_circle_radius * math.sin(angle)
+
+    circle_center_x = large_circle_center_x + LARGE_CIRCLE_RADIUS * math.cos(angle)
+    circle_center_y = large_circle_center_y + LARGE_CIRCLE_RADIUS * math.sin(angle)
+
+    if harmonic:
+        circle_center_x = large_circle_center_x + (LARGE_CIRCLE_RADIUS + CIRCLE_RADIUS * 2 + SMALL_CIRCLE_RADIUS * 2) * math.cos(angle)
+        circle_center_y = large_circle_center_y + (LARGE_CIRCLE_RADIUS + CIRCLE_RADIUS * 2 + SMALL_CIRCLE_RADIUS * 2) * math.sin(angle)
 
     return (circle_center_x, circle_center_y)
 
 
-def calculate_circle_points(num_points, index, total_circles, window_width, window_height):
-    center = list(calculate_circle_center(num_points, index, total_circles, window_width, window_height))
+def calculate_circle_points(num_points, index, total_circles, window_width, window_height, harmonic = False):
+    center = list(calculate_circle_center(num_points, index, total_circles, window_width, window_height, harmonic))
 
     # Calculate the points within the small circle
     circle_points = []
@@ -340,7 +370,18 @@ while running:
     screen.fill(BACKGROUND)
     draw_text(f"{absolute_notes}", (200,40), FOREGROUND)
 
-    for i, scale in enumerate(scales):
+    center = (WINDOW_HEIGHT / 2, WINDOW_WIDTH / 2)
+    for i, note in enumerate(absolute_notes):
+        angle = math.radians(270 + 360 / 12 * i)
+        x = center[0] + (CIRCLE_RADIUS + 60) * math.cos(angle)
+        y = center[1] + (CIRCLE_RADIUS + 60) * math.sin(angle)
+        color = BACKGROUND
+        if note > 0:
+            color = FOREGROUND
+        pygame.draw.circle(screen, color, (x,y), SMALL_CIRCLE_RADIUS)
+
+
+    for i, scale in enumerate(majors):
         # Calculate the positions of points around a circle
         center = (WINDOW_SIZE[0] // NUM_CIRCLES + 10, WINDOW_SIZE[1] // NUM_CIRCLES + 10)
         center_point = list(calculate_circle_center(NUM_POINTS, i, NUM_CIRCLES, WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -366,6 +407,31 @@ while running:
             pygame.draw.circle(screen, color, (int(point[0]), int(point[1])), SMALL_CIRCLE_RADIUS)
             draw_text(scale[0][j][1], point, FOREGROUND)
 
+    for i, scale in enumerate(harmonics):
+        # Calculate the positions of points around a circle
+        center = (WINDOW_SIZE[0] // NUM_CIRCLES + 10, WINDOW_SIZE[1] // NUM_CIRCLES + 10)
+        center_point = list(calculate_circle_center(NUM_POINTS, i, NUM_CIRCLES, WINDOW_WIDTH, WINDOW_HEIGHT, True))
+        draw_text(f"{scale[1]}", tuple(center_point), FOREGROUND)
+        center_point[1] -= 90
+
+        # draw_text(f"{scale[2]}", tuple(center_point), FOREGROUND)
+        circle_points = calculate_circle_points(NUM_POINTS, i, NUM_CIRCLES, WINDOW_WIDTH, WINDOW_HEIGHT, True)
+
+        # Draw circles and numbers
+        for j, point in enumerate(circle_points):
+            note = scale[0][j]
+            color = BACKGROUND
+            if note[2] > 0:
+                color = get_color(scale, j)
+
+            # if note and note[0] in selected_points:
+            #     notes_in_scale += 1
+            #     color = HIGHLIGHT_0
+            # if notes_in_scale == len(selected_points):
+            #     color = HIGHLIGHT_2
+
+            pygame.draw.circle(screen, color, (int(point[0]), int(point[1])), SMALL_CIRCLE_RADIUS)
+            draw_text(scale[0][j][1], point, FOREGROUND)
     # Update the display
     pygame.display.flip()
 
